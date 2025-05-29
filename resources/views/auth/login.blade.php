@@ -10,7 +10,7 @@
         <label for="inputPassword">Senha</label>
         <input type="password" name="password" id="inputPassword" placeholder="insira sua senha aqui..." required>
 
-        <input type="submit" value="ENTRAR">           
+        <input type="submit" value="ENTRAR" class="btn btn-primary">
     </form>
 
     <a href="/esqueciSenha">Esqueci minha senha</a>

@@ -19,7 +19,7 @@
     </div>           
     <br>
 
-    <input type="submit" id="botaoSubmit" value="CADASTRAR">
+    <input type="submit" id="botaoSubmit" value="CADASTRAR" class="btn btn-primary">
 </form>    
 
 <style>
