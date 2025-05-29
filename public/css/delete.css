@@ -1,0 +1,20 @@
+#botaoNao{
+    color: white;
+    border: solid 1px;
+    border-radius: 4px;
+    font-size: xx-large;
+    padding: 2px;
+    background-color: green;
+    margin: 4px;
+    text-decoration: none;
+}
+#botaoSim{
+    cursor: pointer;
+    color: white;
+    border: solid 1px;
+    border-radius: 4px;
+    margin: 4px;
+    font-size: small;
+    padding: 2px;
+    background-color: red;
+}

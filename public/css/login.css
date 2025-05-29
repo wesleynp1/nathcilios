@@ -1,0 +1,24 @@
+.formulario{
+    display: flex;
+    flex-direction: column;
+    max-width: 640px;
+    margin:auto;
+    padding: 16px;
+      
+    label{
+        text-align: left;
+        margin-top: 32px;
+    }
+
+    img{
+      max-width: 200px;
+      margin: auto;
+    }
+    
+    input[type=submit]{
+      margin-top: 32px;
+      margin-bottom: 16px;
+      height: 64px;
+      font-size: 32px
+    }
+  }

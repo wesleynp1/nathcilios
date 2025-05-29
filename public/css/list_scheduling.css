@@ -1,0 +1,12 @@
+table{
+    width: 90%;
+    max-width: 900px;
+    min-width: 300px;
+    margin: auto;
+    border-collapse: collapse;
+
+    td,tr,th{
+        border: 1px solid white;
+    }
+
+}
