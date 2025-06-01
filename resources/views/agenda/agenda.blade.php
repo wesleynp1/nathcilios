@@ -79,5 +79,9 @@
             </div>
         </div>
     @endcannot
+    <br>
+    <a href="/novaMarcacao"> 
+        <p class="btn btn-primary">Realizar nova Marcação</p>        
+    </a> 
 
 </x-main-template>

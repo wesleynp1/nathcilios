@@ -29,7 +29,7 @@
     </div>
 
     <div class="mb-3">
-        <label for="select_date" class="form-label m-0">Data</label>
+        <label for="select_date" class="form-label m-0">Data e Horário</label>
         <select name="scheduled_time" id="select_date" class="form-select">
             @if(isset($scheduling->scheduled_time))
                 <option value="{{ $scheduling->scheduled_time }}">{{ $scheduling->scheduled_time }}</option>

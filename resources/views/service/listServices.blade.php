@@ -1,5 +1,8 @@
 <x-main-template extraStyle="/css/list_service.css">
 
+    <h1>Serviços e Técnicas Oferecidas</h1>
+    <h2>Clique em um dos serviços para realizar uma marcação</h2>
+
     @can('isAdmin')
     <a href="/novoServico">        
             <p id="newServiceButton">+ Cadastrar Novo Servico</p>        

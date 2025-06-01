@@ -9,6 +9,7 @@
     --bs-link-color-rgb: 255,255,255;
     --bs-heading-color: rgb(255,255,255);
     --bs-table-color:rgb(255,255,255);
+    --bs-gradient: linear-gradient(180deg, rgba(255, 255, 255, 0.4), rgba(50, 50, 50, 0.2));
     
     a{
         text-decoration: none;
@@ -20,6 +21,11 @@
     
 }
 
+body{
+    background-size: 100vw 100vh;    
+    background-repeat: no-repeat;
+}
+
 .btn-primary{    
     --bs-btn-bg: rgb(76, 15, 173);
     --bs-btn-border-color: #fff;
@@ -28,11 +34,17 @@
     --bs-btn-hover-border-color: rgb(40, 7, 94);
 }
 
-nav a:hover {
+nav a:hover, nav input:hover {
         background-color: rgba(0,0,0,0.2);
     }
 
-nav a{
+nav a, nav input{
     border-radius: 4px;
     background-color: rgba(0,0,0,0.5);
+}
+
+nav input{
+    display: inline;
+    color: #fff;
+    border: 0px;    
 }

@@ -13,8 +13,9 @@
         <input type="submit" value="ENTRAR" class="btn btn-primary">
     </form>
 
-    <a href="/esqueciSenha">Esqueci minha senha</a>
-    <a href="/registrar"> <p> Criar uma conta</p></a>
+    <a href="/esqueciSenha" class="btn btn-primary mt-2">Esqueci minha senha</a>
+    <br>
+    <a href="/registrar"> <p class="btn btn-primary mt-2"> Criar uma conta</p></a>
 
     @if(Session::has("error"))
         <p class="falha">Erro:{{Session::get('error')}}</p>
