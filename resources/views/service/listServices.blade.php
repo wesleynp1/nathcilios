@@ -21,7 +21,7 @@
                                 </div>
                                 <div class="col-6 d-flex flex-column justify-content-between">
                                     <h2>{{$service->name}}</h2>
-                                    <p class="text-justify">{!! $service->description !!}</p>                        
+                                    <div class="text-justify">{!! str_replace("\n","<br>",$service->description) !!}</div>
                                     <h2>R$ {{ str_replace(".",",",$service->price) }}</h2>
                                 </div>                            
                             </a>

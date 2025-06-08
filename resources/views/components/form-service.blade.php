@@ -14,12 +14,11 @@
     <br>
 
     <label for="inputDescricao">Descrição</label>
-    <div id="editor">
-        <p>{!! isset($service) ? $service->description : '' !!}</p>
-    </div>           
-    <br>
+    <textarea type="text" name="description" id="inputDescricao" required>{{ isset($service) ? $service->description : '' }}</textarea>
 
     <input type="submit" id="botaoSubmit" value="CADASTRAR" class="btn btn-primary">
+
+    
 </form>    
 
 <style>
@@ -36,20 +35,3 @@
 </script>
 <script src="/js/inputPreco.js"></script>
 <script src="/js/inputImagem.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
-<script>
-    const quill = new Quill('#editor', {
-        theme: 'snow'
-    });
-
-    formulario.onsubmit = ()=>{
-        let input = document.createElement("input");
-        
-        input.type = "text";
-        input.value = quill.getSemanticHTML();
-        input.name = "description";
-        input.hidden = true;
-
-        formulario.append(input);
-    }
-</script>
