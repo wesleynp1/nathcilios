@@ -58,6 +58,7 @@ nav input{
 
 .service{
     background-color: rgba(0, 0, 0, 0.7);
+    border: solid 1px white;
 }
 
 .service:hover{

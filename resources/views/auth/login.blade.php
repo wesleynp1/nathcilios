@@ -11,6 +11,10 @@
         <input type="password" name="password" id="inputPassword" placeholder="insira sua senha aqui..." required>
 
         <input type="submit" value="ENTRAR" class="btn btn-primary">
+
+        <p>
+            <input type="checkbox" name="remember" id="inputRemember" >  Entrar automaticamente
+        </p>
     </form>
 
     <a href="/esqueciSenha" class="btn btn-primary mt-2">Esqueci minha senha</a>

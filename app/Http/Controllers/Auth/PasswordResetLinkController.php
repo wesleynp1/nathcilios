@@ -35,7 +35,7 @@ class PasswordResetLinkController extends Controller
                 ]);
             }
 
-            return redirect("/")->with("Message","Email enviado, clique no link do email");
+            return redirect("/")->with("message","Email enviado, clique no link do email");
         }catch(Exception $e){
             return redirect("/esqueciSenha")->with("message","Erro ao enviar o Email:".$e->getMessage());
         }
