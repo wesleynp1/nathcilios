@@ -7,13 +7,3 @@
 #newServiceButton:hover{    
     background-color: rgba(0, 150, 0, 0.5);
 }
-
-.service{
-    background-color: rgba(0, 0, 0, 0.7);
-}
-
-.service:hover{
-    background-color: rgba(0, 0, 0, 0.2);
-    border: 1px gold solid;
-    padding: 1px;
-}

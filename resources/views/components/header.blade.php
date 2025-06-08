@@ -1,7 +1,7 @@
 <header id="mainHeader" class="container-fluid bg-dark">
     <div id="titleContainer" class="row">
         <div class="col-12 d-flex align-items-center">
-            <img src="/img/Nathcilios.png" class="img-fluid m-auto my-1"/>
+            <img src="/img/NathCilios.svg" class="img-fluid m-auto my-1"/>
         </div>
     </div>
 
