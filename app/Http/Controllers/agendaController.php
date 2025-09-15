@@ -9,6 +9,9 @@ use DateTimeZone;
 use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
+use phpDocumentor\Reflection\DocBlock\Tags\Throws;
+
+use function PHPUnit\Framework\isEmpty;
 
 class agendaController extends Controller
 {
@@ -39,36 +42,34 @@ class agendaController extends Controller
             return view("agenda.agenda",["availableDatetimes"=>$arrayAvailableDatetimes]);
     }
         
-
     function makeAvailableForm(){
-        $availableDatetimes = agendaController::noExpiredAvailableDateTimes();
-        $scheduledDatetimes = scheduling::all("scheduled_time");
+        try{
+            if(!Gate::allows("isAdmin"))throw new Exception("acesso negado");
 
-        $busyDateTimes = [];
-        
-        foreach($availableDatetimes as $availableDatetime){
-            $busyDateTimes[] = date_format(date_create($availableDatetime->date_time),"Y-m-d H:i:s");
+            //QUAIS HORÁRIOS TEM CLIENTE MARCADO NO FUTURO
+            $scheduledDatetimes = scheduling::whereFuture("scheduled_time")->get()->map(function ($d){
+                return date_create($d->scheduled_time);
+            });
+
+            //QUAIS HORÁRIOS JÁ SE ENCONTRAM DISPONIVEIS
+            $availableDatetimes = agendaController::noExpiredAvailableDateTimes()->map(function ($d){
+                return date_create($d->date_time);
+            });
+
+            return view("agenda.makeAvailable",[
+                "scheduledDatetimes"=>$scheduledDatetimes,
+                "availableDatetimes"=>$availableDatetimes
+            ]);
+        }catch(Exception $e){
+            return back()->with("message","Operação mau sucedida: ".$e->getMessage());
         }
-
-        $arrayscheduledDatetimes = [];
-
-        foreach($scheduledDatetimes as $scheduledDatetime){
-            $dateTime   = date_create($scheduledDatetime->scheduled_time);
-            
-            $arrayscheduledDatetimes[] = $dateTime;
-            $busyDateTimes[] = date_format($dateTime,"Y-m-d H:i:s");
-        }
-        
-        return view("agenda.makeAvailable",[
-            "scheduledDatetimes"=>$arrayscheduledDatetimes,
-            "busyDateTimes"=>$busyDateTimes
-        ]);
     }
-
     
     function makeAvailable(Request $r){
         try{
-            if(empty($r->input('newAvailableDatetime'))){
+            if(!Gate::allows("isAdmin"))throw new Exception("acesso negado");
+
+            if(empty($r->input('datetimeToAvailable'))){
                 throw new Exception("Nada foi selecionado");
             }
 
@@ -78,7 +79,7 @@ class agendaController extends Controller
                 }
                 available_datetime::create(['date_time'=>date_create($newDate)]);
             } ,     
-            $r->input('newAvailableDatetime'));        
+            $r->input('datetimeToAvailable'));
 
             return redirect("agenda")->with("message","Acão realizada com sucesso!");
         }catch(Exception $e){
@@ -88,6 +89,8 @@ class agendaController extends Controller
 
     function makeUnavailable(Request $r){
         try{
+            if(!Gate::allows("isAdmin"))throw new Exception("acesso negado");
+
             if(empty($r->input('datesToUnavailable'))){
                 throw new Exception("Nada foi selecionado");
             }

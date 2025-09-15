@@ -20,6 +20,8 @@
                     </tr>
                 @endforeach
             </table>
+
+            <a href="/novaMarcacao" class="btn btn-success my-2">NOVA MARCAÇÃO</a>
         </div>
     </div>
 </x-main-template>

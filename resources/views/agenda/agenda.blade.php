@@ -56,7 +56,7 @@
             <input type="submit" value="SALVAR" class="btn btn-primary mt-2">
         </form>
 
-        <a href="agenda/disponibilizar" class="btn btn-success mt-2">DISPONIBILIZAR NOVOS HORÁRIOS</a>
+        <a href="agenda/disponibilizar" class="btn btn-success my-2">DISPONIBILIZAR NOVOS HORÁRIOS</a>
     @endcan
 
     @cannot('isAdmin')
