@@ -5,6 +5,7 @@
     --bs-body-bg: rgb(0, 0, 0);
     --bs-link-hover-color-rgb: rgb(40, 7, 94);
     --bs-body-color: rgb(255, 255, 255);
+    --bs-secondary-color: rgb(150, 150, 150);
 
     --bs-link-color-rgb: 255,255,255;
     --bs-heading-color: rgb(255,255,255);
@@ -71,3 +72,24 @@ nav input{
     width:  24px;
     height: 24px;
 }
+
+
+.formulario{
+    display: flex;
+    flex-direction: column;
+    max-width: 640px;
+    margin:auto;
+    padding: 16px;
+
+    img{
+      max-width: 200px;
+      margin: auto;
+    }
+    
+    input[type=submit]{
+      margin-top: 32px;
+      margin-bottom: 16px;
+      height: 64px;
+      font-size: 32px
+    }
+  }

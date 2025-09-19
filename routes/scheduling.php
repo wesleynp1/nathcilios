@@ -4,8 +4,8 @@ use App\Http\Controllers\schedulingController;
 use Illuminate\Support\Facades\Route;
 
 //CREATE
-Route::get('novaMarcacao/{serviceIntentedId?}', [schedulingController::class, "formCreateScheduling"])->middleware("auth");
-Route::post('novaMarcacao',             [schedulingController::class, "createScheduling"])->middleware("auth");
+Route::get('novaMarcacao/{serviceIntentedId?}/{maintenance?}', [schedulingController::class, "formCreateScheduling"]);
+Route::post('novaMarcacao',             [schedulingController::class, "createScheduling"]);
 
 //READ
 Route::get('agendamentos', [schedulingController::class, "readScheduling"])->middleware("auth");

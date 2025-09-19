@@ -9,8 +9,12 @@
     <input type="text" name="name" id="inputNome" value="{{ isset($service) ? $service->name : '' }}" required>
     <br>
 
-    <label for="inputPreco">Preço</label>
+    <label for="inputPreco">Preço Aplicação</label>
     <input type="text" name="price" id="inputPreco" value="{{  isset($service) ?  $service->price : 0 }}" required>
+    <br>
+
+    <label for="inputPreco">Preço Manutenção</label>
+    <input type="text" name="maintenance_price" id="inputMaintenencePreco" value="{{  isset($service) ?  $service->maintenance_price : 0 }}">
     <br>
 
     <label for="inputDescricao">Descrição</label>
@@ -29,9 +33,18 @@
     }
 </style>
 
-<script>
-    const inputPreco  = document.getElementById("inputPreco");
-    const formulario  = document.getElementById("formService");
-</script>
 <script src="/js/inputPreco.js"></script>
+
+<script>
+    const inputPreco = document.getElementById("inputPreco");
+    const inputMaintenencePreco = document.getElementById("inputMaintenencePreco");
+    
+    inputPreco.oninput = formatarDinheiro;
+    inputMaintenencePreco.oninput = formatarDinheiro;
+    document.getElementById("formService").onsubmit = ()=>{formatarCampoPrecoParaSubmit(inputPreco);formatarCampoPrecoParaSubmit(inputMaintenencePreco)}
+
+    inputPreco.oninput();
+    inputMaintenencePreco.oninput();
+</script>
+
 <script src="/js/inputImagem.js"></script>

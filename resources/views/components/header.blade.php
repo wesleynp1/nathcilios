@@ -8,7 +8,9 @@
     <nav class="row text-center justify-content-between">
         <a href="/"             class="col mb-1">Início</a>
         <a href="/servicos"     class="col mb-1  mx-2">Serviços</a>
-        <a href="/agendamentos" class="col mb-1 me-2">Marcações</a>
+        @auth
+            <a href="/agendamentos" class="col mb-1 me-2">Marcações</a>
+        @endauth
         <a href="/agenda"       class="col mb-1 me-2">Agenda</a>
         
         @guest

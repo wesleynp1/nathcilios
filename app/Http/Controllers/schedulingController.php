@@ -109,6 +109,7 @@ class schedulingController extends Controller
 
             return view("scheduling.createScheduling",[
                 "serviceIntentedId"=>$r->serviceIntentedId,
+                "maintenance"=>$r->maintenance,
                 "services"=> DB::select("SELECT id,name from service;"),
                 "datetimes"=> $available_dateTimes
             ]);
@@ -155,7 +156,7 @@ class schedulingController extends Controller
             ]);
 
             if(date_create($r->scheduled_time) < date_create('now',new DateTimeZone(env('APP_TIMEZONE')))){
-                throw new Exception("Sinto muito, mas a data pretendida já passou");
+                throw new Exception("Sinto muito, mas a data e horario pretendida já passou");
             }
 
             if( isset($scheduling->scheduled_time) && $scheduling->scheduled_time != $r->scheduled_time){

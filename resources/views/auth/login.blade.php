@@ -5,10 +5,10 @@
         <img src="/img/usuario.png" alt="">
         
         <label for="inputEmail">E-mail</label>
-        <input type="text" name="email" id="inputEmail" placeholder="insira seu email aqui..." required>
+        <input type="text" name="email" id="inputEmail" placeholder="insira seu email aqui..." class="form-control"  required>
 
         <label for="inputPassword">Senha</label>
-        <input type="password" name="password" id="inputPassword" placeholder="insira sua senha aqui..." required>
+        <input type="password" name="password" id="inputPassword" placeholder="insira sua senha aqui..." class="form-control"  required>
 
         <input type="submit" value="ENTRAR" class="btn btn-primary">
 

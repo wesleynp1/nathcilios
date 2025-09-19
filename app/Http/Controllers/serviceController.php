@@ -18,7 +18,7 @@ class serviceController extends Controller
             $this->serviceValidation($r)->save();            
             return redirect("/servicos");
         }catch(Exception $e){
-            return back()->withInput(["name","price","image","description"])->with("message",$e->getMessage());
+            return back()->withInput(["name","price","maintenance_price","image","description"])->with("message",$e->getMessage());
         }
     }
     
@@ -56,6 +56,7 @@ class serviceController extends Controller
         $r->validate([
             'name' => 'required|min:1',
             'price' => 'required|decimal:2|gt:0',
+            'maintenance_price' => 'decimal:2',
             'image' => 'image',
             'description' =>'required'
         ]);
@@ -68,6 +69,7 @@ class serviceController extends Controller
         $service->name = $r->name;
         $service->description = $r->description;
         $service->price = floatval($r->price);
+        $service->maintenance_price = floatval($r->maintenance_price);
         
         return $service;
     }

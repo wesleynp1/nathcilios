@@ -27,7 +27,7 @@ class agendaController extends Controller
             $arrayscheduledDatetimes = [];
 
             if(Gate::allows("isAdmin")){
-                $scheduledDatetimes = scheduling::all("scheduled_time");                
+                $scheduledDatetimes = scheduling::all("scheduled_time");          
 
                 foreach($scheduledDatetimes as $scheduledDatetime){
                     $arrayscheduledDatetimes[] = date_create($scheduledDatetime->scheduled_time);
