@@ -32,7 +32,7 @@ class AppServiceProvider extends ServiceProvider
         });
         
         Gate::define("isTheOwner",function(User $user,scheduling $scheduling){
-            return $user->id == $scheduling->client;
+            return $user->id == $scheduling->client || Gate::allows("isAdmin");
         });
     }
 }

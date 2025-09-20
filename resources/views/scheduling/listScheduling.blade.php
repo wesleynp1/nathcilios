@@ -6,6 +6,7 @@
                     <th>Nome da cliente</th>
                     <th>Data e Hora marcada</th>
                     <th>Serviço</th>
+                    <th>Tipo</th>
                     <th colspan="2">Opções</th>
                 </thead>
 
@@ -14,6 +15,7 @@
                         <td>{{ $schedule->client_name }}</td>
                         <td>{{ date_format($schedule->scheduled_time," d/m/Y H:i") }}</td>
                         <td>{{ $schedule->service_name }}</td>
+                        <td>{{ $schedule->maintenance ? "Manutenção" : "Aplicação" }}</td>
 
                         <td><a href="editarAgendamento/{{ $schedule->id }}" class="btn btn-primary">editar</a></td>
                         <td><a href="deletarAgendamento/{{ $schedule->id }}"class="btn btn-danger ">delete</a></td>

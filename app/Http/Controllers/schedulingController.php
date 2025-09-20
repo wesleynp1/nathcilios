@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Auth\GuestController;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\DB;
@@ -11,19 +12,32 @@ use App\Models\available_datetime;
 use Illuminate\Support\Facades\Gate;
 use DateTimeZone;
 use Exception;
+use Illuminate\Support\Facades\Auth;
 
 class schedulingController extends Controller
 {
     //CRUD
     function createScheduling(Request $r){
         try{
-            $newScheduling = $this->SchedulingValidation($r);
+            schedulingController::schedulingValidation($r);            
 
-            available_datetime::destroy($newScheduling->scheduled_time);
-            $newScheduling->save();
-            
-            return redirect("agendamentos")->with("message","agendamento realizado com sucesso!");
+            if($r->user()==null){
+                Auth::setUser(GuestController::guestUser($r));
+                DB::beginTransaction();
+                schedulingController::generateScheduling($r)->save();
+                DB::delete("delete from available_datetime where date_time=?",[$r->scheduled_time]);
+                DB::commit();
+                Auth::logout();
+                return redirect("/")->with("message","agendamento realizado com sucesso!");
+            }else{
+                DB::beginTransaction();
+                schedulingController::generateScheduling($r)->save();
+                DB::delete("delete from available_datetime where date_time=?",[$r->scheduled_time]);
+                DB::commit();
+                return redirect("agendamentos")->with("message","agendamento realizado com sucesso!");
+            }
         }catch(Exception $e){
+            DB::rollBack();
             return back()->withInput(["name","scheduled_time","serviceId"])->with("message",$e->getMessage());
         }
     }
@@ -35,7 +49,8 @@ class schedulingController extends Controller
             scheduling.scheduled_time,
             scheduling.created_at,
             users.name as client_name,
-            service.name as service_name 
+            service.name as service_name,
+            scheduling.maintenance as maintenance 
             from scheduling inner join users inner join service 
             where scheduling.serviceId=service.id and scheduling.client = users.id
             ORDER BY scheduling.scheduled_time DESC;");
@@ -44,7 +59,8 @@ class schedulingController extends Controller
             SELECT scheduling.id, 
             scheduling.scheduled_time,
             users.name as client_name,
-            service.name as service_name 
+            service.name as service_name,
+            scheduling.maintenance as maintenance 
             from scheduling inner join users inner join service 
             where scheduling.serviceId=service.id and scheduling.client = users.id and users.id=".$r->user()->id.
             " ORDER BY scheduling.scheduled_time DESC;"
@@ -60,20 +76,22 @@ class schedulingController extends Controller
 
     function updateScheduling(Request $r){
         try{
+            schedulingController::schedulingValidation($r);
             $schedulingToBeUpdated = scheduling::findOrFail($r->id);
             Gate::authorize("isTheOwner",[$schedulingToBeUpdated]);
 
-            $this->SchedulingValidation($r,$schedulingToBeUpdated)->save();
-
-            if($schedulingToBeUpdated->scheduled_time != $r->scheduled_time){
-                $oldScheduled_time = new available_datetime();                
-                $oldScheduled_time->date_time = $schedulingToBeUpdated->scheduled_time;                
-                available_datetime::destroy($r->scheduled_time);
-                available_datetime::noExpiredAvailableDateTimes();
+            if($schedulingToBeUpdated->scheduled_time != $r->scheduled_time){                
+                DB::beginTransaction();
+                DB::delete("delete from available_datetime where date_time=?",[$r->scheduled_time]);
+                DB::insert("insert into available_datetime values(?);",[$schedulingToBeUpdated->scheduled_time ]);
+                DB::commit();
             }
+
+            $this->generateScheduling($r,$schedulingToBeUpdated)->save();            
 
             return redirect("agendamentos")->with("message","agendamento editado com sucesso!");;
         }catch(Exception $e){
+            DB::rollBack();
             return back()->withInput(["client_name","scheduled_time","serviceId"])->with("message",$e->getMessage());
         }
     }
@@ -102,6 +120,7 @@ class schedulingController extends Controller
     //FORM's
     function formCreateScheduling(Request $r){
         try{
+            agendaController::noExpiredAvailableDateTimes();
             $available_dateTimes = $this->retrieveAvailableDatetime();
             if(count($available_dateTimes)==0){
                 throw new Exception("Desculpe não temos horários dispoíveis no momento");
@@ -120,6 +139,7 @@ class schedulingController extends Controller
 
     function formUpdateScheduling(Request $r){
         try{
+            agendaController::noExpiredAvailableDateTimes();
             $schedulingToBeUpdated = scheduling::findOrFail($r->id);
             Gate::authorize("isTheOwner",[$schedulingToBeUpdated]);
 
@@ -148,24 +168,22 @@ class schedulingController extends Controller
     }
 
     //VALIDATION
-    function SchedulingValidation(Request $r,$scheduling = new scheduling()){
+    static function schedulingValidation(Request $r,){
+            agendaController::noExpiredAvailableDateTimes();
         
             $r->validate([                
                 "scheduled_time" => "required | date",
-                "serviceId" => "required"
-            ]);
+                "serviceId" => "required",
+                "maintenance" => "required | boolean"
+            ]);            
+    }
 
-            if(date_create($r->scheduled_time) < date_create('now',new DateTimeZone(env('APP_TIMEZONE')))){
-                throw new Exception("Sinto muito, mas a data e horario pretendida já passou");
-            }
+    static function generateScheduling(Request $r,$scheduling = new scheduling()){
 
-            if( isset($scheduling->scheduled_time) && $scheduling->scheduled_time != $r->scheduled_time){
-                available_datetime::findOrFail($r->scheduled_time);
-            }
-            $user = $r->user();
-            $scheduling->client         = $user->id;
+        if(!isset($scheduling->client))$scheduling->client=$r->user()->id;
             $scheduling->scheduled_time = $r->scheduled_time;
             $scheduling->serviceId      = $r->serviceId;
+            $scheduling->maintenance    = $r->maintenance;
 
             return $scheduling;
     }

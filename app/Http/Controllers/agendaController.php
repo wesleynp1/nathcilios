@@ -9,13 +9,10 @@ use DateTimeZone;
 use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
-use phpDocumentor\Reflection\DocBlock\Tags\Throws;
-
-use function PHPUnit\Framework\isEmpty;
 
 class agendaController extends Controller
 {
-    function agenda(Request $r){
+    function agenda(){
         $availableDatetimes = agendaController::noExpiredAvailableDateTimes();  
         $arrayAvailableDatetimes = [];
 
