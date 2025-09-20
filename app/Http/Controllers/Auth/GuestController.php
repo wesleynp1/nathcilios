@@ -16,19 +16,17 @@ class GuestController
             'name' => ['required', 'string', 'max:255'],
             'phone_number'=>['string', 'max:11'],                
         ]);
-
-
-            return User::createOrFirst([
-            'name'        => $r->name,
-            'phone_number'=> $r->phone_number,
-            'email'       => $r->phone_number."@nathcilios.free.nf",
-            'password'    => env("GUEST_PASSWORD"),
-            'is_guest'    => true
-            ]);
-
-            //return User:: firstOrCreate("email",($r->phone_number."@nathcilios.free.nf"))->first();
-
-            //return $user=DB::select("select * from users where email=?",[$r->phone_number."@nathcilios.free.nf"])[0];
-        
+        try{
+            return User::where("email",$r->phone_number."@nathcilios.free.nf")->first()->id;
+        }catch(Exception $e){
+            $user = User::create([
+                'name'        => $r->name,
+                'phone_number'=> $r->phone_number,
+                'email'       => $r->phone_number."@nathcilios.free.nf",
+                'password'    => env("GUEST_PASSWORD"),
+                'is_guest'    => true
+                ]);
+            return $user->id;
+        }
     }    
 }

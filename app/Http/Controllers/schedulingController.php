@@ -19,10 +19,10 @@ class schedulingController extends Controller
     //CRUD
     function createScheduling(Request $r){
         try{
-            schedulingController::schedulingValidation($r);            
-
+            schedulingController::schedulingValidation($r);  
+            
             if($r->user()==null){
-                Auth::setUser(GuestController::guestUser($r));
+                Auth::loginUsingId(GuestController::guestUser($r));
                 DB::beginTransaction();
                 schedulingController::generateScheduling($r)->save();
                 DB::delete("delete from available_datetime where date_time=?",[$r->scheduled_time]);
