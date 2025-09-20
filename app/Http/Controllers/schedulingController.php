@@ -49,6 +49,7 @@ class schedulingController extends Controller
             scheduling.scheduled_time,
             scheduling.created_at,
             users.name as client_name,
+            users.phone_number as phone_number,
             service.name as service_name,
             scheduling.maintenance as maintenance 
             from scheduling inner join users inner join service 

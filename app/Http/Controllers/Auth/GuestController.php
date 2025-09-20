@@ -13,8 +13,8 @@ class GuestController
 {    
     static function guestUser(Request $r){
         $r->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'phone_number'=>['string', 'max:11'],                
+            'name' => ['required', 'string', 'max:255','required'],
+            'phone_number'=>['string', 'max:11','required'],                
         ]);
         try{
             return User::where("email",$r->phone_number."@nathcilios.free.nf")->first()->id;

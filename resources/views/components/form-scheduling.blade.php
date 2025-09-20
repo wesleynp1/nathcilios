@@ -22,12 +22,12 @@
     @guest
         <div class="mb-3">
             <label for="clientName" class="form-label m-0">Seu nome:</label>
-            <input type="text" name="name" id="inputClientName" placeholder="Digite seu nome aqui" class="form-control">
+            <input type="text" name="name" id="inputClientName" placeholder="Digite seu nome aqui" class="form-control" required>
         </div>
 
         <div class="mb-3">
             <label for="clientName" class="form-label m-0">Seu número de telefone:</label>
-            <input type="text" name="phone_number" id="inputClientNumber" inputmode="numeric" placeholder="Digite seu número aqui" class="form-control telefone">
+            <input type="text" name="phone_number" id="inputClientNumber" inputmode="numeric" placeholder="Digite seu número aqui" class="form-control telefone" required>
         </div>        
     @endguest
 
